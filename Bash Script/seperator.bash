@@ -2,6 +2,7 @@
 
 # Paste this file in the folder containing idd-segmentation folder
 # Run the command: bash seperator_segmentation.bash
+# Edit array CLASS_NAMES such that it contains your required class only
 
 CURRENT_DIRECTORY=`pwd`;
 SOURCE_PATH="${CURRENT_DIRECTORY}/IDD_Segmentation";
@@ -9,32 +10,22 @@ DESTINATION_PATH="${CURRENT_DIRECTORY}/Segmentation Dataset";
 
 CLASS_NAMES=("road" "parking" "drivable fallback" "sidewalk" "non-drivable fallback" "rail track" "person" "animal" "rider" "motorcycle" "bicycle" "autorickshaw" "car" "truck" "bus" "caravan" "trailer" "vehicle fallback" "curb" "wall" "fence" "guard rail" "billboard" "traffic sign" "traffic light" "pole" "polegroup" "obs-str-bar-fallback" "building" "bridge" "tunnel" "vegetation" "sky" "fallback background" "out of roi");
 
-CLASS_NAMES=("person" "road");
 # Creating   destination path hierarchy
 mkdir "Segmentation Dataset";
 cd "Segmentation Dataset";
 mkdir train;
 mkdir val;
 mkdir test;
+
 cd train;
-for new_folder in "${CLASS_NAMES[@]}" ; do
-  mkdir "$new_folder";
-  cd "$new_folder";
-  mkdir image;
-  mkdir json;
-  cd ..;
-done
-cd ..;
-cd val;
-for new_folder in "${CLASS_NAMES[@]}" ; do
-  mkdir "$new_folder";
-  cd "$new_folder";
-  mkdir image;
-  mkdir json;
-  cd ..;
-done
+mkdir image;
+mkdir annotation;
 cd ..;
 
+cd val;
+mkdir image;
+mkdir annotation;
+cd ..;
 
 # TRAINING DATA
 PATH_TO_JSON="$SOURCE_PATH/gtFine/train";
@@ -58,11 +49,11 @@ while read folder_name; do
         for class in "${CLASS_NAMES[@]}" ; do
             if [[ `cat $json_name | grep "$class" | wc | sed 's/|/ /' | awk '{print $1, $8}'` -ne 0 ]]
             then 
-                destination="$DESTINATION_PATH/train/$class/json";
+                destination="$DESTINATION_PATH/train/annotation";
                 cp $json_name "$destination";
 
                 image_name=${json_name/gtFine_polygons.json/leftImg8bit.png};
-                destination="$DESTINATION_PATH/train/$class/image";
+                destination="$DESTINATION_PATH/train/image";
                 cd "$PATH_TO_IMAGE/$folder_name";
                 cp $image_name "$destination";
                 cd "$PATH_TO_JSON/$folder_name";
@@ -109,11 +100,11 @@ while read folder_name; do
         for class in "${CLASS_NAMES[@]}" ; do
             if [[ `cat $json_name | grep "$class" | wc | sed 's/|/ /' | awk '{print $1, $8}'` -ne 0 ]]
             then 
-                destination="$DESTINATION_PATH/val/$class/json";
+                destination="$DESTINATION_PATH/val/annotation";
                 cp $json_name "$destination";
 
                 image_name=${json_name/gtFine_polygons.json/leftImg8bit.png};
-                destination="$DESTINATION_PATH/val/$class/image";
+                destination="$DESTINATION_PATH/val/image";
                 cd "$PATH_TO_IMAGE/$folder_name";
                 cp $image_name "$destination";
                 cd "$PATH_TO_JSON/$folder_name";
