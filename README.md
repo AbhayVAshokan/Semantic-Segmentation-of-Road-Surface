@@ -4,9 +4,9 @@
 
 **Semantic Segmentation**: Semantic segmentation refers to the process of linking each pixel in an image to a class label. These labels could include a person, car, flower, piece of furniture, etc., just to mention a few. We can think of semantic segmentation as image classification at a pixel level.
 
-It has applications in various algorithms in the field of autonomous vehicles. For instance, in the given GIF, semantic segmentation is used to classify vehicles, foot-path, pedestrians, buildings and trees.
+It has applications in various algorithms in the field of autonomous vehicles. For instance, in the given image, semantic segmentation is used to classify vehicles, foot-path, pedestrians, buildings and trees.
 
-<img src="https://www.jeremyjordan.me/content/images/2018/05/deeplabcityscape.gif" width =75%>
+<img src="https://cdn.analyticsvidhya.com/wp-content/uploads/2019/03/image-segmentation.png" width =75%>
 
 This project implements a semantic segmentation of the road surface using U-Net.
 
